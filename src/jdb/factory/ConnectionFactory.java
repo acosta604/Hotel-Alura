@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 
-public class Connection {
+public class ConnectionFactory {
     
     private static final String URL = "jdbc:mysql://localhost:3308/hotelalurabd";
     private static final String USERNAME = "root";
@@ -20,7 +20,7 @@ public class Connection {
     
     public DataSource dataSource;
     
-   public Connection() {
+   public ConnectionFactory() {
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 		comboPooledDataSource.setJdbcUrl(URL);
 		comboPooledDataSource.setUser(USERNAME);

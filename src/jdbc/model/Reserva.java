@@ -6,8 +6,6 @@ package jdbc.model;
 
 import java.util.Date;
 
-
-
 /**
  * @author Paula Acosta
  */

@@ -15,7 +15,7 @@ public class TestConnection {
     
     public static void main(String[] args) throws SQLException {
 
-		Connection connectionTest = new Connection();
+		ConnectionFactory connectionTest = new ConnectionFactory();
 		java.sql.Connection connection = connectionTest.recuperarConexion();
                 
 		System.out.println("Conexion exitosa");
