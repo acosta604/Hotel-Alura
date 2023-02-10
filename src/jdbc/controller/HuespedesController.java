@@ -4,6 +4,10 @@
  */
 package jdbc.controller;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.util.List;
+import jdb.factory.ConnectionFactory;
 import jdbc.dao.HuespedesDAO;
 
 /**
@@ -12,8 +16,21 @@ import jdbc.dao.HuespedesDAO;
  */
 public class HuespedesController {
     
+    // se Declara una variable privada "huespedDAO"
+    //que será un objeto de la clase HuespedesDAO.
     private HuespedesDAO  huespedDAO;
+    
+    
+    //
+
+	 public HuespedesController() {
+			Connection connection = new ConnectionFactory().recuperarConexion();
+			this.huespedDAO = new HuespedesDAO(connection);
+		}
+	 
+		
+         }
     
  
     
-}
+
