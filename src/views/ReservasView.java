@@ -20,7 +20,7 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import jdbc.controller.ReservasController;
-import jdbc.model.Reserva;
+import jdbc.model.Reservas;
 
 import java.awt.Font;
 import javax.swing.JComboBox;
@@ -194,7 +194,7 @@ public class ReservasView extends JFrame {
 		txtFormaPago.setBackground(SystemColor.text);
 		txtFormaPago.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
 		txtFormaPago.setFont(new Font("Roboto", Font.PLAIN, 16));
-		txtFormaPago.setModel(new DefaultComboBoxModel(new String[] {"Tarjeta de CrÃ©dito", "Tarjeta de DÃ©bito", "Dinero en efectivo"}));
+		txtFormaPago.setModel(new DefaultComboBoxModel(new String[] {"Tarjeta de Credito", "Tarjeta de Debito", "Dinero en efectivo"}));
 		panel.add(txtFormaPago);
 		
 		JLabel lblFormaPago = new JLabel("FORMA DE PAGO");
@@ -340,16 +340,19 @@ public class ReservasView extends JFrame {
 	private void guardarReserva() {	
 		try {
 			String fechaE = ((JTextField)txtFechaE.getDateEditor().getUiComponent()).getText();
-			String fechaS = ((JTextField)txtFechaS.getDateEditor().getUiComponent()).getText();			
-			Reserva reserva = new Reserva(java.sql.Date.valueOf(fechaE), java.sql.Date.valueOf(fechaS), ReservasView.txtValor.getText(), ReservasView.txtFormaPago.getSelectedItem().toString());
-			reservasController.guardar(reserva);
+			String fechaS = ((JTextField)txtFechaS.getDateEditor().getUiComponent()).getText();
+                         String valorDouble = ReservasView.txtValor.getText();
+                      
+			Reservas reservas = new Reservas(java.sql.Date.valueOf(fechaE), java.sql.Date.valueOf(fechaS), valorDouble, ReservasView.txtFormaPago.getSelectedItem().toString());
+			reservasController.guardar(reservas);
 			
-			RegistroHuesped huesped = new RegistroHuesped(reserva.getId_Reserva());
+			RegistroHuesped huesped = new RegistroHuesped(reservas.getIdReserva());
+                    
 			huesped.setVisible(true);
 			dispose();
 			
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(contentPane, "Error: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -358,7 +361,7 @@ public class ReservasView extends JFrame {
 			Calendar inicio = fechaE.getCalendar();
 			Calendar fin = fechaS.getCalendar();
 			int dias = -1; // Usamos -1 para contar a partir del dia siguiente
-			int diaria = 180;
+			int diaria = 5000;
 			int valor;
 			
 			while(inicio.before(fin)||inicio.equals(fin)) {

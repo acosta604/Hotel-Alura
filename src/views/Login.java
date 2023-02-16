@@ -142,7 +142,7 @@ public class Login extends JFrame {
 		separator.setBounds(65, 292, 324, 2);
 		panel.add(separator);
 		
-		JLabel labelTitulo = new JLabel("INICIAR SESIÃ“N");
+		JLabel labelTitulo = new JLabel("LOGIN");
 		labelTitulo.setForeground(SystemColor.textHighlight);
 		labelTitulo.setFont(new Font("Roboto Black", Font.PLAIN, 26));
 		labelTitulo.setBounds(65, 149, 202, 26);
@@ -180,7 +180,7 @@ public class Login extends JFrame {
 		LabelUsuario.setBounds(65, 219, 107, 26);
 		panel.add(LabelUsuario);
 		
-		JLabel lblContrasea = new JLabel("CONTRASEÃ‘A");
+		JLabel lblContrasea = new JLabel("CONTRASEÑA");
 		lblContrasea.setForeground(SystemColor.textInactiveText);
 		lblContrasea.setFont(new Font("Roboto Black", Font.PLAIN, 20));
 		lblContrasea.setBounds(65, 316, 140, 26);
@@ -252,7 +252,7 @@ public class Login extends JFrame {
 	            menu.setVisible(true);
 	            dispose();	 
 	        }else {
-	            JOptionPane.showMessageDialog(this, "Usuario o Contrase no validos");
+	            JOptionPane.showMessageDialog(this, "Usuario o Contraseña no validos");
 	        }
 	} 
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {

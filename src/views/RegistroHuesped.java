@@ -18,7 +18,7 @@ import com.toedter.calendar.JDateChooser;
 import jdbc.controller.HuespedesController;
 import jdbc.controller.ReservasController;
 import jdbc.model.Huespedes;
-import jdbc.model.Reserva;
+import jdbc.model.Reservas;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -156,7 +156,7 @@ public class RegistroHuesped extends JFrame {
 		txtNacionalidad.setBounds(560, 350, 289, 36);
 		txtNacionalidad.setBackground(SystemColor.text);
 		txtNacionalidad.setFont(new Font("Roboto", Font.PLAIN, 16));
-		txtNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"afgano-afgana", "alemÃ¡n-", "alemana", "Ã¡rabe-Ã¡rabe", "argentino-argentina", "australiano-australiana", "belga-belga", "boliviano-boliviana", "brasileÃ±o-brasileÃ±a", "camboyano-camboyana", "canadiense-canadiense", "chileno-chilena", "chino-china", "colombiano-colombiana", "coreano-coreana", "costarricense-costarricense", "cubano-cubana", "danÃ©s-danesa", "ecuatoriano-ecuatoriana", "egipcio-egipcia", "salvadoreÃ±o-salvadoreÃ±a", "escocÃ©s-escocesa", "espaÃ±ol-espaÃ±ola", "estadounidense-estadounidense", "estonio-estonia", "etiope-etiope", "filipino-filipina", "finlandÃ©s-finlandesa", "francÃ©s-francesa", "galÃ©s-galesa", "griego-griega", "guatemalteco-guatemalteca", "haitiano-haitiana", "holandÃ©s-holandesa", "hondureÃ±o-hondureÃ±a", "indonÃ©s-indonesa", "inglÃ©s-inglesa", "iraquÃ­-iraquÃ­", "iranÃ­-iranÃ­", "irlandÃ©s-irlandesa", "israelÃ­-israelÃ­", "italiano-italiana", "japonÃ©s-japonesa", "jordano-jordana", "laosiano-laosiana", "letÃ³n-letona", "letonÃ©s-letonesa", "malayo-malaya", "marroquÃ­-marroquÃ­", "mexicano-mexicana", "nicaragÃ¼ense-nicaragÃ¼ense", "noruego-noruega", "neozelandÃ©s-neozelandesa", "panameÃ±o-panameÃ±a", "paraguayo-paraguaya", "peruano-peruana", "polaco-polaca", "portuguÃ©s-portuguesa", "puertorriqueÃ±o-puertorriqueÃ±o", "dominicano-dominicana", "rumano-rumana", "ruso-rusa", "sueco-sueca", "suizo-suiza", "tailandÃ©s-tailandesa", "taiwanes-taiwanesa", "turco-turca", "ucraniano-ucraniana", "uruguayo-uruguaya", "venezolano-venezolana", "vietnamita-vietnamita"}));
+		txtNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"afgano-afgana", "aleman-", "alemana", "arabe-arabe", "argentino-argentina", "australiano-australiana", "belga-belga", "boliviano-boliviana", "brasileño,brasileña", "camboyano-camboyana", "canadiense-canadiense", "chileno-chilena", "chino-china", "colombiano-colombiana", "coreano-coreana", "costarricense-costarricense", "cubano-cubana", "danes-danesa", "ecuatoriano-ecuatoriana", "egipcio-egipcia", "salvadoreño-salvadoreña", "escoces-escocesa", "español-española", "estadounidense-estadounidense", "estonio-estonia", "etiope-etiope", "filipino-filipina", "finlandes-finlandesa", "frances-francesa", "gales-galesa", "griego-griega", "guatemalteco-guatemalteca", "haitiano-haitiana", "holandes-holandesa", "hondureño-hondureña", "indones-indonesa", "ingless-inglesa", "irani­-irani­", "irlandes-irlandesa", "israeli­-israeli­", "italiano-italiana", "japones-japonesa", "jordano-jordana", "laosiano-laosiana", "malayo-malaya", "marroqui-marroqui­", "mexicano-mexicana", "nicaraguense-nicaraguense", "noruego-noruega", "panameño-panameña", "paraguayo-paraguaya", "peruano-peruana", "polaco-polaca", "portugues-portuguesa", "puertorriqueño-puertorriqueña", "dominicano-dominicana", "rumano-rumana", "ruso-rusa", "sueco-sueca", "suizo-suiza", "tailandes-tailandesa", "taiwanes-taiwanesa", "turco-turca", "ucraniano-ucraniana", "uruguayo-uruguaya", "venezolano-venezolana", "vietnamita-vietnamita"}));
 		contentPane.add(txtNacionalidad);
 		
 		JLabel lblNombre = new JLabel("NOMBRE");
@@ -183,7 +183,7 @@ public class RegistroHuesped extends JFrame {
 		lblNacionalidad.setFont(new Font("Roboto Black", Font.PLAIN, 18));
 		contentPane.add(lblNacionalidad);
 		
-		JLabel lblTelefono = new JLabel("TELÃ‰FONO");
+		JLabel lblTelefono = new JLabel("TELEFONO");
 		lblTelefono.setBounds(562, 406, 253, 14);
 		lblTelefono.setForeground(SystemColor.textInactiveText);
 		lblTelefono.setFont(new Font("Roboto Black", Font.PLAIN, 18));
@@ -197,13 +197,13 @@ public class RegistroHuesped extends JFrame {
 		txtTelefono.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		contentPane.add(txtTelefono);
 		
-		JLabel lblNewLabel_4 = new JLabel("REGISTRO HUÃ‰SPED");
+		JLabel lblNewLabel_4 = new JLabel("REGISTRO HUESPED");
 		lblNewLabel_4.setBounds(606, 55, 234, 42);
 		lblNewLabel_4.setForeground(new Color(12, 138, 199));
 		lblNewLabel_4.setFont(new Font("Roboto Black", Font.PLAIN, 23));
 		contentPane.add(lblNewLabel_4);
 		
-		JLabel lblNreserva = new JLabel("NÃšMERO DE RESERVA");
+		JLabel lblNreserva = new JLabel("NUMERO DE RESERVA");
 		lblNreserva.setBounds(560, 474, 253, 14);
 		lblNreserva.setForeground(SystemColor.textInactiveText);
 		lblNreserva.setFont(new Font("Roboto Black", Font.PLAIN, 18));
@@ -218,7 +218,7 @@ public class RegistroHuesped extends JFrame {
 		txtNreserva.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNreserva.setEditable(false);
 		System.out.println(idReserva);
-		String id = String.valueOf(idReserva);
+		String id= String.valueOf(idReserva);
 		txtNreserva.setText(id);
 		contentPane.add(txtNreserva);
 		
@@ -329,20 +329,22 @@ public class RegistroHuesped extends JFrame {
 	}
 	
 
-	private void guardarHuesped() {
-		
-			if (txtFechaN.getDate() != null && !txtNombre.equals("") && !txtApellido.equals("") && !txtTelefono.equals("")) {		
-				String fechaN = ((JTextField)txtFechaN.getDateEditor().getUiComponent()).getText();	
-				int nreserva = Integer.parseInt(txtNreserva.getText());
-				Huespedes huespedes = new Huespedes(txtNombre.getText(), txtApellido.getText(),  java.sql.Date.valueOf(fechaN), txtNacionalidad.getSelectedItem().toString(),txtTelefono.getText(), nreserva);
-				this.huespedesController.guardar(huespedes);
-				Exito exito = new Exito();
-				exito.setVisible(true);	
-				dispose();
-			} else {
-				JOptionPane.showMessageDialog(this, "Debes llenar todos los campos.");
-			}									
-	}
+private void guardarHuesped() {
+
+    if (txtFechaN.getDate() != null && !txtNombre.getText().equals("") && !txtApellido.getText().equals("") && !txtTelefono.getText().equals("") && !txtNreserva.getText().equals("")) {		
+        String fechaN = ((JTextField)txtFechaN.getDateEditor().getUiComponent()).getText();	
+    
+        int nreserva = Integer.parseInt(txtNreserva.getText());
+        Huespedes huespedes = new Huespedes(nreserva, txtNombre.getText(), txtApellido.getText(), java.sql.Date.valueOf(fechaN), txtNacionalidad.getSelectedItem().toString(), txtTelefono.getText());
+        this.huespedesController.guardar(huespedes);
+        Exito exito = new Exito();
+        exito.setVisible(true);	
+        dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "Debes llenar todos los campos.");
+    }									
+}
+
 	
 										
 	}

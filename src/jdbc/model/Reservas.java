@@ -9,15 +9,15 @@ import java.util.Date;
 /**
  * @author Paula Acosta
  */
-public class Reserva {
+public class Reservas {
 
-    private Integer id_Reserva;
+    private Integer idReserva;
     private Date fechaEntrada;
     private Date fechaSalida;
-    private Double valor;
+    private String valor;
     private String formaPago;
 
-    public Reserva(Date fechaE, Date fechaS, Double valor, String formaP) {
+    public Reservas(Date fechaE, Date fechaS,String valor, String formaP) {
         super();
         this.fechaEntrada = fechaE;
         this.fechaSalida = fechaS;
@@ -26,8 +26,8 @@ public class Reserva {
 
     }
 
-    public Reserva(Integer idReserva, Date fechaE, Date fechaS, Double valor, String formaP) {
-        this.id_Reserva = idReserva;
+    public Reservas(Integer idReserva, Date fechaE, Date fechaS, String valor, String formaP) {
+        this.idReserva = idReserva;
         this.fechaEntrada = fechaE;
         this.fechaSalida = fechaS;
         this.valor = valor;
@@ -35,12 +35,12 @@ public class Reserva {
 
     }
 
-    public Integer getId_Reserva() {
-        return id_Reserva;
+    public Integer getIdReserva() {
+        return idReserva;
     }
 
-    public void setId_Reserva(Integer id_Reserva) {
-        this.id_Reserva = id_Reserva;
+    public void setIdReserva(Integer id_Reserva) {
+        this.idReserva = id_Reserva;
     }
 
     public Date getFechaEntrada() {
@@ -51,7 +51,7 @@ public class Reserva {
         return fechaSalida;
     }
 
-    public Double getValor() {
+    public String getValor() {
         return valor;
     }
 

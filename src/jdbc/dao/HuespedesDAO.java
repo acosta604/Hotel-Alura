@@ -28,62 +28,38 @@ public class HuespedesDAO {
     }
     //Se inicia la función guardar y se pasa como argumento un objeto de tipo Huespedes.
 
-    public void guardar(Huespedes huesped) {
+  	public void guardar(Huespedes huesped) {
+		try {
+			String sql = "INSERT INTO Huespedes (nombre, apellido, fechaNacimiento, nacionalidad, Telefono, idReserva) VALUES (?, ?, ?, ?,?,?)";
 
-        try {
-            // Se crea una cadena de texto llamada sql que representa una sentencia SQL 
-            //de inserción en la tabla huespedes.
-            String sql = "INSERT INTO Huespedes (nombre,apellido,fechaNacimiento,nacionalidad,telefono,idReserva)+"
-                    + "VALUES (?, ?, ?, ?, ?, ?)";
+			try (PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            /**
-             * try with resources Se crea una instancia de PreparedStatement con
-             * la conexión a la base de datos y la sentencia SQL. La opción
-             * Statement.RETURN_GENERATED_KEYS indica que se desea recuperar las
-             * claves generadas.*
-             */
-            try (PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+				pst.setString(1, huesped.getNombre());
+				pst.setString(2, huesped.getApellido());
+				pst.setDate(3, new java.sql.Date(huesped.getFechaNacimiento().getTime()));
+				pst.setString(4, huesped.getNacionalidad());
+				pst.setString(5, huesped.getTelefono());
+				pst.setInt(6, huesped.getIdReserva());
 
-                /* Se establecen los valores para cada uno de los campos en la tabla
-                * Se establecen los valores para cada uno de los campos en la tabla
-                * huespedes usando el método setString o setDate y el índice del parámetro.*/
-                pst.setString(1, huesped.getNombre());
-                pst.setString(2, huesped.getApellido());
-                pst.setDate(3, (Date) huesped.getFechaNacimiento());
-                pst.setString(4, huesped.getNacionalidad());
-                pst.setString(5, huesped.getTelefono());
-                pst.setInt(6, huesped.getId_Reserva());
+				pst.execute();
 
-                //Se ejecuta la sentencia SQL mediante el método execute.
-                pst.execute();
-
-                /*try with resources Se recuperan las
-                 * claves generadas y se establecen en el objeto huesped. */
-                try (ResultSet rst = pst.getGeneratedKeys()) {
-                    while (rst.next()) {
-                        huesped.setId_Huesped(rst.getInt(1));
-                    }
-                }
-
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public List<Huespedes> listarHuespedes() {
-
-        List<Huespedes> huespedes = new ArrayList<Huespedes>();
-
-        try {
-
-            String sql = "SELECT (idHuesped,idReserva, nombre,apellido,fechaNacimiento,nacionalidad,Telefono) +"
-                    + "FROM Huespedes";
+				try (ResultSet rst = pst.getGeneratedKeys()) {
+					while (rst.next()) {
+						huesped.setIdHuesped(rst.getInt(1));
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+public List<Huespedes> listarHuespedes() {
+		List<Huespedes> huespedes = new ArrayList<>();
+		try {
+			String sql = "SELECT idHuesped,idReserva, nombre, apellido,fechaNacimiento,nacionalidad,Telefono FROM Huespedes";
 
             try (PreparedStatement pst = connection.prepareStatement(sql)) {
-
+          
                 pst.execute();
 
                 transformarResultSetEnHuesped(huespedes, pst);
@@ -95,20 +71,36 @@ public class HuespedesDAO {
         }
     }
 
-    public void Actualizar(Integer idHuesped, Integer idReserva, String nombre, String apellido, Date fechaN, String nacionalidad, String tel) {
+    public List<Huespedes> buscarIdNom(String idHuesped, String nombre) {
+        List<Huespedes> huespedes = new ArrayList<>();
+        try {
 
-        try (PreparedStatement pst = connection.prepareStatement("UPDATE Huespedes  SET "
-                + "idReserva = ?, nombre= ?, apellido =?, fechaNacimiento=?, nacionalidad= ?, Telefono=? "
-                + "WHERE idHuesped = ? ")) {
+            String sql = "SELECT idHuesped,idReserva, nombre, apellido, fechaNacimiento, nacionalidad, Telefono  FROM Huespedes WHERE  idReserva = ? OR nombre= ?";
+                                                                           //elimine Statement.GENERETED KEYS
+            try (PreparedStatement pst = connection.prepareStatement(sql)) {
+                pst.setString(1, idHuesped);
+                pst.setString(2, nombre);
+                pst.execute();
 
-            pst.setInt(1, idHuesped);
-            pst.setInt(2, idReserva);
-            pst.setString(3, nombre);
-            pst.setString(4, apellido);
-            pst.setDate(5, fechaN);
-            pst.setString(6, nacionalidad);
-            pst.setString(7, tel);
+                transformarResultSetEnHuesped(huespedes, pst);
+            }
+            return huespedes;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public void Actualizar( Integer idReserva, Integer idHuesped,String nombre, String apellido, Date fechaN, String nacionalidad, String tel) {
+
+        try (PreparedStatement pst = connection.prepareStatement("UPDATE Huespedes SET nombre = ?, apellido = ?, fechaNacimiento = ?, nacionalidad = ?, Telefono = ?  WHERE idHuesped = ? ")) {
+
+            pst.setString(1, nombre);
+            pst.setString(2, apellido);
+            pst.setDate(3, fechaN);
+            pst.setString(4, nacionalidad);
+            pst.setString(5, tel);
+            pst.setInt(6, idHuesped);
+        
             pst.execute();
 
         } catch (SQLException e) {
@@ -118,7 +110,7 @@ public class HuespedesDAO {
 
     }
 
-    public void Eliminar(Integer idHuesped, Integer idReserva, String nombre, String apellido, Date fechaN, String nacionalidad, String tel) {
+    public void Eliminar(Integer idHuesped) {
 
         try (PreparedStatement pst = connection.prepareStatement("DELETE FROM Huespedes WHERE idHuesped = ?")) {
 
@@ -132,13 +124,16 @@ public class HuespedesDAO {
 
     }
 
-    private void transformarResultSetEnHuesped(List<Huespedes> reservas, PreparedStatement pst) throws SQLException {
-        try (ResultSet rst = pst.getResultSet()) {
-            while (rst.next()) {
-                Huespedes huespedes = new Huespedes(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4), rst.getDate(5), rst.getString(6), rst.getString(7));
-                reservas.add(huespedes);
-            }
-        }
-    }
+  	private void transformarResultSetEnHuesped(List<Huespedes> reservas, PreparedStatement pstm) throws SQLException {
+		try (ResultSet rst = pstm.getResultSet()) {
+			while (rst.next()) {
+				Huespedes huespedes = new Huespedes( rst.getInt(1), rst.getInt(2),rst.getString(3), rst.getString(4), rst.getDate(5), rst.getString(6), rst.getString(7));
+				reservas.add(huespedes);
+			}
+		}				
+	}
+	
+	
+		
 
 }

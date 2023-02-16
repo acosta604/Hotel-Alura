@@ -14,8 +14,8 @@ public class Huespedes {
 
    
     
-    private  Integer id_Huesped;
-    private Integer id_Reserva;
+    private  Integer idHuesped;
+    private Integer idReserva;
     private String nombre;
     private String apellido;
     private Date fechaNacimiento;
@@ -24,43 +24,43 @@ public class Huespedes {
     
     
     
-    public Huespedes (Integer idReserva, String nombre, String apellido,Date fechaNacimiento, String nacionalidad, String tel){
+    public Huespedes (Integer idReserva ,String nombre, String apellido,Date fechaN, String nacionalidad, String tel){
     super();
-   this.id_Reserva= idReserva;
+   this.idReserva= idReserva;
    this.nombre= nombre;
    this.apellido= apellido;
-   this.fechaNacimiento= fechaNacimiento;
+   this.fechaNacimiento= fechaN;
    this.nacionalidad= nacionalidad;
    this.Telefono= tel;
     
     }
     
-    public Huespedes (Integer idHuesped, Integer idReserva, String nombre, String apellido,Date fechaNacimiento, String nacionalidad, String tel){
-   
-   this.id_Huesped= idHuesped;
-   this.id_Reserva= idReserva;
+    public Huespedes (Integer idHuesped,Integer idReserva, String nombre, String apellido,Date fechaN, String nacionalidad, String tel){
+     super();
+   this.idHuesped= idHuesped;
+   this.idReserva= idReserva;
    this.nombre= nombre;
    this.apellido= apellido;
-   this.fechaNacimiento= fechaNacimiento;
+   this.fechaNacimiento= fechaN;
    this.nacionalidad= nacionalidad;
    this.Telefono= tel;
     
     }
     
-     public Integer getId_Huesped() {
-        return id_Huesped;
+     public Integer getIdHuesped() {
+        return idHuesped;
     }
 
-    public void setId_Huesped(Integer id_Huesped) {
-        this.id_Huesped = id_Huesped;
+    public void setIdHuesped(Integer idHuesped) {
+        this.idHuesped = idHuesped;
     }
 
-    public Integer getId_Reserva() {
-        return id_Reserva;
+    public Integer getIdReserva() {
+        return idReserva;
     }
 
-    public void setId_Reserva(Integer id_Reserva) {
-        this.id_Reserva = id_Reserva;
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
     }
 
     public String getNombre() {
