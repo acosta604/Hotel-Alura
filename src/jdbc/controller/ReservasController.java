@@ -28,12 +28,12 @@ private ReservaDAO reservaDAO;
 		this.reservaDAO.guardar(reservas);
 	}
 		
-	public List<Reservas> listarReservas() {
-		return this.reservaDAO.listarReservas();
+	public List<Reservas> buscarReservas() {
+		return this.reservaDAO.buscarReservas();
 		}
 		
-		public List<Reservas> listarReservasId(String idReserva) {
-			return this.reservaDAO.buscarId(idReserva);
+		public List<Reservas> buscarReservasId(String idReserva) {
+			return this.reservaDAO.buscarReservasId(idReserva);
 		}
 	
 	public void actualizar(Date fechaEntrada, Date fechaSalida, String valor, String formaPago,Integer idReserva) {

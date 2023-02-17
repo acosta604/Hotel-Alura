@@ -58,7 +58,7 @@ public class ReservaDAO {
 
     }
 
-    public List<Reservas> listarReservas() {
+    public List<Reservas> buscarReservas() {
 
         List<Reservas> reservas = new ArrayList<>();
 
@@ -66,26 +66,26 @@ public class ReservaDAO {
 
             String sql = "SELECT idReserva, fechaEntrada, fechaSalida, valor, formaPago FROM Reservas";
 
-            try (PreparedStatement pst = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement pst = connection.prepareStatement(sql)) {
 
                 pst.execute();
 
                 transformarResultSetEnReserva(reservas, pst);
             }
-
             return reservas;
+            
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public List<Reservas> buscarId(String idReserva) {
+    public List<Reservas>buscarReservasId(String idReserva) {
         List<Reservas> reservas = new ArrayList<>();
         try {
 
             String sql = "SELECT idReserva, fechaEntrada, fechaSalida, valor, formaPago FROM Reservas WHERE idReserva = ?";
 
-            try (PreparedStatement pst = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement pst = connection.prepareStatement(sql)) {
                 pst.setString(1, idReserva);
                 pst.execute();
 
@@ -128,7 +128,7 @@ public class ReservaDAO {
     }
 
     private void transformarResultSetEnReserva(List<Reservas> reserva, PreparedStatement pst) throws SQLException {
-        try (ResultSet rst = pst.getGeneratedKeys()) {
+        try (ResultSet rst = pst.getResultSet()) {
             while (rst.next()) {
 
                 Reservas producto = new Reservas(rst.getInt(1), rst.getDate(2), rst.getDate(3), rst.getString(4), rst.getString(5));

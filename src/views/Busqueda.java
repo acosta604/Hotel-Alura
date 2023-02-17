@@ -8,34 +8,41 @@
  */
 package views;
 
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.sql.Date;
-import java.util.List;
-import java.util.Optional;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
 import jdbc.controller.HuespedesController;
 import jdbc.controller.ReservasController;
 import jdbc.model.Huespedes;
 import jdbc.model.Reservas;
-import jdbc.dao.*;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Optional;
+import java.awt.event.ActionEvent;
+import javax.swing.JTabbedPane;
+import java.awt.Toolkit;
+import javax.swing.SwingConstants;
+import javax.swing.JSeparator;
+import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
+
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
@@ -68,6 +75,7 @@ public class Busqueda extends JFrame {
                 }
             }
         });
+
     }
 
     /**
@@ -108,6 +116,7 @@ public class Busqueda extends JFrame {
 
         tbHuespedes = new JTable();
         tbHuespedes.setFont(new Font("Roboto", Font.PLAIN, 16));
+
         panel.addTab("Huespedes", new ImageIcon(Busqueda.class.getResource("/imagenes/pessoas.png")), tbHuespedes, null);
         modeloHuesped = (DefaultTableModel) tbHuespedes.getModel();
         modeloHuesped.addColumn("Numero de Huesped");
@@ -117,7 +126,6 @@ public class Busqueda extends JFrame {
         modeloHuesped.addColumn("Fecha de Nacimiento");
         modeloHuesped.addColumn("Nacionalidad");
         modeloHuesped.addColumn("Telefono");
-
         LlenarTablaHuespedes();
 
         tbReservas = new JTable();
@@ -343,11 +351,11 @@ public class Busqueda extends JFrame {
     }
 
     private List<Reservas> BuscarReservas() {
-        return this.reservasController.listarReservas();
+        return this.reservasController.buscarReservas();
     }
 
     private List<Reservas> listarReservasId() {
-        return this.reservasController.listarReservasId(txtBuscar.getText());
+        return this.reservasController.buscarReservasId(txtBuscar.getText());
     }
 
     //CODIGO PARA BUSCAR HUESPEDES POR ID reserva y Nombre
@@ -366,11 +374,19 @@ public class Busqueda extends JFrame {
 
     // LLENAR TABLA RESERVAS
     private void LlenarTablaReservas() {
+
         //Llenar Tabla
         List<Reservas> reserva = BuscarReservas();
+        if (reserva.isEmpty()) {
+            System.out.println("La lista de reservas está vacía.");
+        } else {
+            System.out.println("La lista de reservas tiene " + reserva.size() + " elementos.");
+        }
+
         try {
             for (Reservas reservas : reserva) {
                 modelo.addRow(new Object[]{reservas.getIdReserva(), reservas.getFechaEntrada(), reservas.getFechaSalida(), reservas.getValor(), reservas.getFormaPago()});
+                System.out.println(reserva.toString());
             }
         } catch (Exception e) {
             throw e;
@@ -378,7 +394,7 @@ public class Busqueda extends JFrame {
     }
 
     private void LlenarTablaReservasId() {
-        //Llenar Tabla
+        //Llenar Tabla reservas
         List<Reservas> reserva = listarReservasId();
         try {
             for (Reservas reservas : reserva) {
@@ -389,13 +405,14 @@ public class Busqueda extends JFrame {
         }
     }
 
-// LLENAR TABLA HUESPEDES
+    // LLENAR TABLA HUESPEDES
     private void LlenarTablaHuespedes() {
         //Llenar Tabla
         List<Huespedes> huesped = BuscarHuespedes();
         try {
             for (Huespedes huespedes : huesped) {
                 modeloHuesped.addRow(new Object[]{huespedes.getIdHuesped(), huespedes.getIdReserva(), huespedes.getNombre(), huespedes.getApellido(), huespedes.getFechaNacimiento(), huespedes.getNacionalidad(), huespedes.getTelefono()});
+                System.out.println(huesped.toString());
             }
         } catch (Exception e) {
             throw e;
@@ -403,7 +420,7 @@ public class Busqueda extends JFrame {
     }
 
     private void LlenarTablaHuespedesId() {
-        //Llenar Tabla
+        //Llenar Tabla huespedes
         List<Huespedes> huesped = BuscarHuespedesIdNom();
         try {
             for (Huespedes huespedes : huesped) {
@@ -415,86 +432,42 @@ public class Busqueda extends JFrame {
     }
 
     private void ActualizarReservas() {
-        int selectedRow = tbReservas.getSelectedRow();
+        Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+                .ifPresentOrElse(fila -> {
+
+                    Date fechaE = Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 1).toString());
+                    Date fechaS = Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 2).toString());
+                    String valor = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 3);
+                    String formaPago = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 4);
+                    Integer idReserva = Integer.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+                    this.reservasController.actualizar(fechaE, fechaS, valor, formaPago, idReserva);
+                    JOptionPane.showMessageDialog(this, String.format("Registro modificado con exito"));
+                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un registro"));
+
+    }
+
+    private void ActualizarHuesped() {
+        int selectedRow = tbHuespedes.getSelectedRow();
         if (selectedRow >= 0) {
             try {
-                int idReserva = (int) modelo.getValueAt(selectedRow, 0);
-                Date fechaEntrada = Date.valueOf(modelo.getValueAt(selectedRow, 1).toString());
-                Date fechaSalida = Date.valueOf(modelo.getValueAt(selectedRow, 2).toString());
-                String valor = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 3);
-                String formaPago = (String) modelo.getValueAt(selectedRow, 4);
-                reservasController.actualizar(fechaEntrada, fechaSalida, valor, formaPago, idReserva);
-                JOptionPane.showMessageDialog(this, "Reserva actualizada con éxito");
+                int idHuesped = (int) modeloHuesped.getValueAt(selectedRow, 0);
+                int idReserva = (int) modeloHuesped.getValueAt(selectedRow, 1);
+                String nombre = (String) modeloHuesped.getValueAt(selectedRow, 2);
+                String apellido = (String) modeloHuesped.getValueAt(selectedRow, 3);
+                Date fechaNacimiento = (Date) modeloHuesped.getValueAt(selectedRow, 4);
+                String nacionalidad = (String) modeloHuesped.getValueAt(selectedRow, 5);
+                String telefono = (String) modeloHuesped.getValueAt(selectedRow, 6);
+
+                this.huespedesController.actualizar(idReserva, idHuesped, nombre, apellido, fechaNacimiento, nacionalidad, telefono);
+                JOptionPane.showMessageDialog(this, String.format("Registro modificado con éxito"));
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error al actualizar reserva: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al actualizar registro: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione una reserva para actualizar");
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un registro para actualizar");
         }
     }
 
-    /*private void ActualizarReservas() {		
-		Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
-        .ifPresentOrElse(fila -> {
-            
-        	
-        	Date fechaE = Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 1).toString());		
-        	Date fechaS = Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 2).toString());
-			String valor = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 3);
-			String formaPago = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 4);
-	        Integer idReserva = Integer.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 5).toString());
-			this.reservasController.actualizar(fechaE,fechaS, valor, formaPago,idReserva);
-			JOptionPane.showMessageDialog(this, String.format("Registro modificado con exito"));
-		}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un registro"));
-		
-	}*/
-    private void ActualizarHuesped() {
-        Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
-                .ifPresentOrElse(filaHuesped -> {
-                    Object idHuespedValue = modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0);
-                    Integer idHuesped = idHuespedValue instanceof Integer ? (Integer) idHuespedValue : 0;
-                    
-                    Object idReservaValue = modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1);
-                    Integer idReserva = idReservaValue instanceof Integer ? (Integer) idReservaValue : 0;
-
-                    Object nombreValue = modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2);
-                    String nombre = nombreValue instanceof String ? (String) nombreValue : "";
-
-                    Object apellidoValue = modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3);
-                    String apellido = apellidoValue instanceof String ? (String) apellidoValue : "";
-
-                    Object fechaNacimientoValue = modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4);
-                    Date fechaNacimiento = fechaNacimientoValue instanceof Date ? (Date) fechaNacimientoValue : new Date(0);
-
-                    Object nacionalidadValue = modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5);
-                    String nacionalidad = nacionalidadValue instanceof String ? (String) nacionalidadValue : "";
-
-                    Object telefonoValue = modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 6);
-                    String telefono = telefonoValue instanceof String ? (String) telefonoValue : "";
-
-                    this.huespedesController.actualizar(idReserva, idHuesped,nombre, apellido, fechaNacimiento, nacionalidad, telefono);
-                    JOptionPane.showMessageDialog(this, String.format("Registro modificado con exito"));
-                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un registro"));
-    }
-
-    /*
- private void ActualizarHuesped() {
-        Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
-                .ifPresentOrElse(filaHuesped -> {
-                  
-                    String nombre = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1);
-                    String apellido = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2);
-                    Date fechaNacimiento = Date.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3).toString());
-                    String nacionalidad = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4);
-                    String telefono = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5);
-                     Integer idReserva = Integer.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 6).toString());
-                    Integer idHuesped = Integer.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
-                   
-                    this.huespedesController.actualizar( nombre, apellido, fechaNacimiento, nacionalidad, telefono, idReserva,idHuesped);
-                    JOptionPane.showMessageDialog(this, String.format("Registro modificado con exito"));
-                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un registro"));
-
-    }*/
     private void headerMousePressed(java.awt.event.MouseEvent evt) {
         xMouse = evt.getX();
         yMouse = evt.getY();
