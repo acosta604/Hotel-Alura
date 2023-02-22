@@ -4,16 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/NetbeansProjects/Mi_Hotel/src/views/RegistroHuesped.java</file>
-            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/jdbc/controller/ReservasController.java</file>
-            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/jdbc/dao/ReservaDAO.java</file>
-            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/jdbc/dao/HuespedesDAO.java</file>
-            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/jdbc/controller/HuespedesController.java</file>
+            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/imagenes/login.png</file>
+            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/imagenes/login2.png</file>
+            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/imagenes/lOGO-50PX.png</file>
             <file>file:/C:/NetbeansProjects/Mi_Hotel/src/views/ReservasView.java</file>
             <file>file:/C:/NetbeansProjects/Mi_Hotel/src/views/Busqueda.java</file>
-            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/jdbc/model/Huespedes.java</file>
-            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/jdbc/model/Reservas.java</file>
             <file>file:/C:/NetbeansProjects/Mi_Hotel/src/views/Login.java</file>
-            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/views/MenuUsuario.java</file>
+            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/imagenes/img-hotel-login-.png</file>
+            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/views/MenuPrincipal.java</file>
+            <file>file:/C:/NetbeansProjects/Mi_Hotel/src/imagenes/perfil-del-usuario.png</file>
         </group>
     </open-files>
 </project-private>

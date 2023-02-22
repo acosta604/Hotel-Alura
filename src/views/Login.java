@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
@@ -59,7 +60,9 @@ public class Login extends JFrame {
 	public Login() {
 		setResizable(false);
 		setUndecorated(true);
+                setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/login.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                
 		setBounds(100, 100, 788, 527);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,7 +73,7 @@ public class Login extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 788, 527);
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(Color.white);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		

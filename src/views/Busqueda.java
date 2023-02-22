@@ -94,7 +94,7 @@ public class Busqueda extends JFrame {
         setLocationRelativeTo(null);
         setUndecorated(true);
         contentPane.setLayout(null);
-        JScrollPane scrollPane = new JScrollPane(tbReservas);
+        
 
         txtBuscar = new JTextField();
         txtBuscar.setBounds(536, 127, 193, 31);
@@ -103,7 +103,7 @@ public class Busqueda extends JFrame {
         txtBuscar.setColumns(10);
 
         JLabel lblTitulo = new JLabel("SISTEMA DE BUSQUEDA");
-        lblTitulo.setBounds(331, 62, 280, 42);
+        lblTitulo.setBounds(331, 62, 290, 42);
         lblTitulo.setForeground(new Color(12, 138, 199));
         lblTitulo.setFont(new Font("Roboto Black", Font.BOLD, 24));
         contentPane.add(lblTitulo);
@@ -115,10 +115,7 @@ public class Busqueda extends JFrame {
         contentPane.add(panel);
 
         tbHuespedes = new JTable();
-        tbHuespedes.setFont(new Font("Roboto", Font.PLAIN, 16));
-
-        panel.addTab("Huespedes", new ImageIcon(Busqueda.class.getResource("/imagenes/pessoas.png")), tbHuespedes, null);
-        modeloHuesped = (DefaultTableModel) tbHuespedes.getModel();
+        modeloHuesped = new DefaultTableModel();
         modeloHuesped.addColumn("Numero de Huesped");
         modeloHuesped.addColumn("Numero de Reserva");
         modeloHuesped.addColumn("Nombre");
@@ -126,18 +123,27 @@ public class Busqueda extends JFrame {
         modeloHuesped.addColumn("Fecha de Nacimiento");
         modeloHuesped.addColumn("Nacionalidad");
         modeloHuesped.addColumn("Telefono");
+        tbHuespedes.setModel(modeloHuesped);
+        tbHuespedes.setFont(new Font("Roboto", Font.PLAIN, 16));
+        JScrollPane scrollPane = new JScrollPane(tbHuespedes); // Definir la variable scrollPane antes de utilizarla
+        scrollPane.setViewportView(tbHuespedes);
+        panel.addTab("Huespedes", new ImageIcon(Busqueda.class.getResource("/imagenes/pessoas.png")), scrollPane, null);
+          tbHuespedes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         LlenarTablaHuespedes();
 
         tbReservas = new JTable();
-        tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
-        panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/reservado.png")), tbReservas, null);
         modelo = (DefaultTableModel) tbReservas.getModel();
         modelo.addColumn("Numero de Reserva");
         modelo.addColumn("Fecha Check In");
         modelo.addColumn("Fecha Check Out");
         modelo.addColumn("Valor");
         modelo.addColumn("Forma de Pago");
+        tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
+        JScrollPane scrollPaner = new JScrollPane(tbReservas);
+         scrollPane.setViewportView(tbHuespedes);
+        panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/reservado.png")), scrollPaner, null);
         tbReservas.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
         LlenarTablaReservas();
 
         JLabel logo = new JLabel("");
