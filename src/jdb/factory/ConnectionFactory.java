@@ -11,8 +11,8 @@ import javax.sql.DataSource;
 
 public class ConnectionFactory {
     
-    private static final String URL = "jdbc:mysql://localhost:3308/hotelalurabd";
-    private static final String USERNAME = "root";
+    private static final String URL = "jdbc:mysql://localhost:3306/hotelalura";
+    private static final String USERNAME = "paula";
     private static final String PASSWORD = "root";
     
     
